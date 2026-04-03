@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Index of Overall Demand Calculator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+        colors: {
+          dark: '#0f172a',
+          primary: '#4f46e5',
+          primaryHover: '#4338ca',
+          surface: '#ffffff',
+        }
+      }
+    }
+  }
+</script>
+<style>
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number] { -moz-appearance: textfield; }
+  
+  /* Modern Input Focus */
+  input:focus, textarea:focus { box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); }
+
+  /* MENGHILANGKAN SCROLLBAR PADA TEXTAREA */
+  textarea::-webkit-scrollbar { display: none; }
+  textarea { -ms-overflow-style: none; scrollbar-width: none; resize: none; }
+
+  @media print {
+    body { background: white !important; font-size: 11px; }
+    .no-print { display: none !important; }
+    .print-card { box-shadow: none !important; border: 1px solid #e2e8f0; margin-bottom: 16px !important; padding: 16px !important; break-inside: avoid; }
+    input, textarea { border: none !important; background: transparent !important; padding: 0 !important; resize: none; overflow: hidden !important; }
+    th, td { padding: 8px !important; border-bottom: 1px solid #e2e8f0; font-size: 10px; }
+    thead th { background-color: #f8fafc !important; color: #0f172a !important; }
+    @page { size: A4 portrait; margin: 1cm; }
+  }
+</style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 min-h-screen text-slate-800 antialiased selection:bg-primary selection:text-white">
+
+<div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 relative">
+  
+  <div class="sticky top-4 z-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/80 backdrop-blur-lg rounded-2xl shadow-md border border-white/50 p-6 print-card transition-all duration-300">
+    <div>
+      <h1 class="text-2xl font-extrabold text-dark tracking-tight">Index of Overall Demand</h1>
+      <p class="text-sm text-slate-500 mt-1 font-medium">Physiological Training Load Calculator</p>
+    </div>
+    <button id="printPdf" class="no-print px-6 py-2.5 bg-dark text-white hover:bg-slate-800 rounded-lg text-sm font-semibold shadow-md transition-all flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+      Export PDF
+    </button>
+  </div>
+
+  <div class="bg-surface rounded-2xl shadow-sm border border-slate-200 p-6 print-card">
+    <h2 class="text-sm font-bold text-dark mb-5 uppercase tracking-wider border-b border-slate-100 pb-3 flex items-center gap-2">
+      <div class="w-2 h-2 rounded-full bg-primary"></div> Profile Data
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Tanggal</label><input id="trainingDate" type="date" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Sesi</label><input id="sessionLabel" type="text" placeholder="Contoh: Pagi / Sore" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Nama Sesi</label><input id="sessionName" value="Sesi Latihan" placeholder="Contoh: Endurance Training" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Nama Atlet</label><input id="athleteName" type="text" placeholder="Contoh: John Doe" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Usia</label><input id="athleteAge" type="number" placeholder="25" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Berat Badan (kg)</label><input id="weight" type="number" step="0.1" placeholder="70.5" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Tinggi Badan (cm)</label><input id="height" type="number" step="1" placeholder="175" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Cabang Olahraga</label><input id="sport" value="Sepakbola" placeholder="Contoh: Sepakbola" class="w-full px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary"></div>
+      
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">IMT (Otomatis)</label><input id="bmi" readonly placeholder="-" class="w-full px-3 py-2 bg-slate-100 border border-transparent rounded-lg text-sm font-bold text-slate-700 cursor-not-allowed"></div>
+      <div><label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">HR Max (Otomatis)</label><input id="hrMax" readonly placeholder="-" class="w-full px-3 py-2 bg-slate-100 border border-transparent rounded-lg text-sm font-bold text-slate-700 cursor-not-allowed"></div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+    <div class="lg:col-span-5 bg-surface rounded-2xl shadow-sm border border-slate-200 flex flex-col overflow-hidden print-card">
+      <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <h2 class="text-sm font-bold text-dark">HR Value Input</h2>
+        <div class="flex gap-2 no-print">
+          <button id="bulkHrBtn" class="px-3 py-1.5 bg-indigo-50 text-primary hover:bg-indigo-100 rounded-md text-xs font-bold transition">⚡ Isi Cepat HR</button>
+          <button id="addExercise" class="px-3 py-1.5 bg-dark text-white hover:bg-slate-800 rounded-md text-xs font-bold transition">+ Tambah</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto flex-1 p-5">
+        <table class="w-full text-left text-sm" id="hrTable">
+          <thead class="text-xs text-slate-500 font-semibold border-b-2 border-slate-100 uppercase tracking-wide">
+            <tr>
+              <th class="pb-3 w-10 text-center">No</th>
+              <th class="pb-3">Exercise</th>
+              <th class="pb-3 w-24 text-center">HR/Min</th>
+              <th class="pb-3 w-16 text-center no-print">Aksi</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7 bg-surface rounded-2xl shadow-sm border border-slate-200 flex flex-col overflow-hidden print-card">
+      <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <h2 class="text-sm font-bold text-dark">Partial Intensity & Volume</h2>
+        <div class="flex gap-2 no-print">
+          <button id="bulkVeBtn" class="px-3 py-1.5 bg-indigo-50 text-primary hover:bg-indigo-100 rounded-md text-xs font-bold transition">⚡ Isi Cepat VE</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto flex-1 p-5">
+        <table class="w-full text-left text-sm" id="piTable">
+          <thead class="text-xs text-slate-500 font-semibold border-b-2 border-slate-100 uppercase tracking-wide">
+            <tr>
+              <th class="pb-3 w-10 text-center">No</th>
+              <th class="pb-3">Exercise</th>
+              <th class="pb-3 w-20 text-center">PI (%)</th>
+              <th class="pb-3 w-24 text-center">VE (min)</th>
+              <th class="pb-3 w-24 text-right">PI × VE</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700"></tbody>
+          <tfoot class="border-t-2 border-slate-200 bg-slate-50/50">
+            <tr>
+              <td colspan="3" class="px-2 py-4 font-bold text-dark">Total Durasi Latihan</td>
+              <td id="totalVE" class="px-2 py-4 font-black text-center text-primary text-base">0</td>
+              <td id="totalPIVE" class="px-2 py-4 font-black text-right text-dark text-base">0</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="px-2 py-2 font-semibold text-slate-500 text-right text-xs uppercase">Relative Volume (RV)</td>
+              <td colspan="2" class="px-2 py-2"><input id="rv" type="number" value="120" class="w-full px-3 py-1.5 border border-slate-300 rounded-md text-center font-bold bg-white outline-none focus:border-primary"></td>
+            </tr>
+            <tr>
+              <td colspan="3" class="px-2 py-2 font-semibold text-slate-500 text-right text-xs uppercase">Rest Interval (VIR)</td>
+              <td colspan="2" class="px-2 py-2"><input id="vir" type="number" value="20" class="w-full px-3 py-1.5 border border-slate-300 rounded-md text-center font-bold bg-white outline-none focus:border-primary"></td>
+            </tr>
+            <tr class="border-t border-slate-200">
+              <td colspan="3" class="px-2 py-3 font-bold text-dark text-right text-xs uppercase tracking-wide">Absolute Volume (AV)</td>
+              <td colspan="2" class="px-2 py-3"><input id="av" readonly class="w-full px-3 py-1.5 bg-transparent border-none text-center font-black text-primary text-lg outline-none"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+    
+    <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-lg p-6 text-white print-card relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
+      
+      <h2 class="text-sm font-bold text-slate-300 mb-6 uppercase tracking-widest border-b border-slate-700 pb-2">Final Metrics</h2>
+      <div class="space-y-3">
+        <div class="flex justify-between items-center border-b border-slate-700/50 pb-3">
+          <span class="text-sm font-medium text-slate-400">Overall Intensity (OI)</span>
+          <span id="resOI" class="text-xl font-bold">0%</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-slate-700/50 pb-3">
+          <span class="text-sm font-medium text-slate-400">Relative Density (RD)</span>
+          <span id="resRD" class="text-xl font-bold">0%</span>
+        </div>
+        <div class="flex justify-between items-center border-b border-slate-700/50 pb-3">
+          <span class="text-sm font-medium text-slate-400">Absolute Density (AD)</span>
+          <span id="resAD" class="text-xl font-bold">0%</span>
+        </div>
+        
+        <div class="pt-4 flex flex-col sm:flex-row sm:justify-between items-start sm:items-end gap-4">
+          <div>
+            <span class="text-xs font-bold text-primary uppercase tracking-widest block mb-1">Final Score</span>
+            <span class="text-lg font-semibold text-white block">Index of Overall Demand</span>
+          </div>
+          <div class="text-left sm:text-right">
+            <div id="resIOD" class="text-5xl font-black text-white leading-none">0%</div>
+            <div id="resCategory" class="text-xs font-bold px-3 py-1 rounded-full mt-2 inline-block uppercase tracking-wide">Ringan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-surface rounded-2xl shadow-sm border border-slate-200 p-6 print-card flex flex-col">
+      <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-2">
+        <h2 class="text-sm font-bold text-dark flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-slate-400"></div> Sesi Evaluation
+        </h2>
+        <button id="autoNotes" class="no-print px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-md text-xs font-bold transition">✨ Auto-Generate</button>
+      </div>
+      <div class="space-y-4 flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col">
+          <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-wider">Kesimpulan</label>
+          <textarea id="conclusion" rows="3" class="w-full flex-1 px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary leading-relaxed"></textarea>
+        </div>
+        <div class="flex-1 flex flex-col">
+          <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-wider">Rekomendasi Medis / Latihan</label>
+          <textarea id="suggestion" rows="3" class="w-full flex-1 px-3 py-2 border border-slate-200 rounded-lg outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary leading-relaxed"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const defaultExercises = [
+  {id:1, name:'Jogging Exercise', hr:120, ve:10},
+  {id:2, name:'Specific Warm Up', hr:120, ve:10},
+  {id:3, name:'Passing Exercise', hr:140, ve:10},
+  {id:4, name:'Passing Exercise Progress', hr:140, ve:10},
+  {id:5, name:'Small Side Games', hr:190, ve:10}
+];
+let exercises = JSON.parse(JSON.stringify(defaultExercises));
+
+const $ = id => document.getElementById(id);
+const fmt = (n) => new Intl.NumberFormat('id-ID', {minimumFractionDigits:0, maximumFractionDigits:0}).format(Math.round(Number.isFinite(n)?n:0));
+const fmtPercent = (n) => fmt(n) + '%';
+const clampPercent = (n) => Math.max(0, Math.min(100, Number.isFinite(n)?n:0));
+
+function getAge() { return Number($('athleteAge').value) || 0; }
+function getHRMax() { 
+  const age = getAge(); 
+  const hrMax = age > 0 ? 220 - age : 0; 
+  $('hrMax').value = hrMax || ''; 
+  return hrMax; 
+}
+function getBMI() { 
+  const w = Number($('weight').value) || 0;
+  let h = Number($('height').value) || 0;
+  if (!w || !h) return 0;
+  h = h / 100; 
+  return (w / (h * h)); 
+}
+function getPI(hr, hrMax) { 
+  const max = Number(hrMax) || 1; 
+  return ((Number(hr) || 0) * 100) / max; 
+}
+function getCategory(iod) {
+  if(iod >= 80) return 'Sangat Tinggi';
+  if(iod >= 60) return 'Tinggi';
+  if(iod >= 40) return 'Sedang';
+  if(iod >= 20) return 'Rendah';
+  return 'Ringan';
+}
+function calculate() {
+  const hrMax = getHRMax(), rv = Number($('rv').value) || 0, vir = Number($('vir').value) || 0;
+  const totalVE = exercises.reduce((s, x) => s + (Number(x.ve) || 0), 0);
+  const totalPIVE = exercises.reduce((s, x) => s + (getPI(x.hr, hrMax) * (Number(x.ve) || 0)), 0);
+  const av = totalVE;
+  const oi = av ? totalPIVE / av : 0;
+  const rd = rv ? (av * 100 / rv) : 0;
+  const ad = av ? ((av - vir) * 100 / av) : 0;
+  const iod = (oi * ad * av) / 10000;
+  return {totalVE, totalPIVE, av, oi, rd, ad, iod};
+}
+
+function createEl(tag, classes, textContent) {
+  const el = document.createElement(tag);
+  if (classes) el.className = classes;
+  if (textContent !== undefined) el.textContent = textContent;
+  return el;
+}
+function createInput(type, value, classes, idDataset, keyDataset) {
+  const inp = document.createElement('input');
+  inp.type = type; inp.value = value; inp.className = classes;
+  inp.dataset.id = idDataset; if(keyDataset) inp.dataset.key = keyDataset;
+  return inp;
+}
+
+function renderTables() {
+  const hrBody = document.querySelector('#hrTable tbody');
+  const piBody = document.querySelector('#piTable tbody');
+  hrBody.innerHTML = ''; piBody.innerHTML = '';
+
+  const hrMax = getHRMax();
+
+  exercises.forEach((row, index) => {
+    const trHR = document.createElement('tr');
+    trHR.appendChild(createEl('td', 'py-2 text-center font-semibold text-slate-400 text-xs', index + 1));
+    const tdName = createEl('td', 'py-2 pr-2');
+    tdName.appendChild(createInput('text', row.name, 'name-input w-full px-3 py-1.5 border border-slate-200 rounded outline-none transition text-sm bg-slate-50 focus:bg-white focus:border-primary', row.id, 'name'));
+    trHR.appendChild(tdName);
+    const tdHR = createEl('td', 'py-2 pr-2');
+    tdHR.appendChild(createInput('number', row.hr, 'hr-input w-full px-2 py-1.5 border border-slate-200 rounded outline-none transition text-sm text-center font-semibold text-dark bg-slate-50 focus:bg-white focus:border-primary', row.id, 'hr'));
+    trHR.appendChild(tdHR);
+    const tdAction = createEl('td', 'py-2 text-center no-print');
+    const btnDel = createEl('button', 'delete-btn p-1.5 bg-red-50 text-red-500 hover:bg-red-100 rounded-md transition', '✕');
+    btnDel.dataset.id = row.id;
+    tdAction.appendChild(btnDel);
+    trHR.appendChild(tdAction);
+    hrBody.appendChild(trHR);
+
+    const pi = getPI(row.hr, hrMax), ve = Number(row.ve) || 0, pive = pi * ve;
+    const trPI = document.createElement('tr');
+    trPI.appendChild(createEl('td', 'py-2.5 text-center font-semibold text-slate-400 text-xs', index + 1));
+    trPI.appendChild(createEl('td', 'py-2.5 font-medium text-slate-700 truncate max-w-[150px]', row.name));
+    trPI.appendChild(createEl('td', 'py-2.5 text-center font-semibold text-slate-600', fmt(pi)));
+    const tdVE = createEl('td', 'py-2');
+    tdVE.appendChild(createInput('number', ve, 've-input w-16 px-2 py-1.5 border border-slate-200 rounded outline-none transition text-sm text-center font-semibold mx-auto block bg-slate-50 focus:bg-white focus:border-primary', row.id, 've'));
+    trPI.appendChild(tdVE);
+    trPI.appendChild(createEl('td', 'py-2.5 text-right font-bold text-dark', fmt(pive)));
+    piBody.appendChild(trPI);
+  });
+  renderResults();
+}
+
+function renderResults() {
+  const bmi = getBMI(), c = calculate();
+  $('bmi').value = bmi ? fmt(bmi) : '';
+  $('totalVE').textContent = fmt(c.totalVE);
+  $('totalPIVE').textContent = fmt(c.totalPIVE);
+  $('av').value = fmt(c.av);
+  
+  $('resOI').textContent = fmtPercent(c.oi);
+  $('resRD').textContent = fmtPercent(c.rd);
+  $('resAD').textContent = fmtPercent(c.ad);
+  $('resIOD').textContent = fmtPercent(clampPercent(c.iod));
+  
+  const cat = getCategory(c.iod), catEl = $('resCategory');
+  catEl.textContent = cat;
+  catEl.className = 'text-xs font-bold px-3 py-1 rounded-full mt-2 inline-block uppercase tracking-wide shadow-sm ' + 
+    (c.iod >= 80 ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 
+     c.iod >= 60 ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' : 
+     c.iod >= 40 ? 'bg-yellow-400/20 text-yellow-300 border border-yellow-400/30' : 
+     c.iod >= 20 ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-slate-500/20 text-slate-300 border border-slate-500/30');
+}
+
+function updateExerciseState(id, key, value) {
+  const val = key === 'name' ? value : Number(value);
+  exercises = exercises.map(x => x.id === id ? {...x, [key]: val} : x);
+  renderTables();
+}
+
+$('hrTable').addEventListener('change', (e) => {
+  if(e.target.classList.contains('name-input') || e.target.classList.contains('hr-input')) updateExerciseState(Number(e.target.dataset.id), e.target.dataset.key, e.target.value);
+});
+$('piTable').addEventListener('change', (e) => {
+  if(e.target.classList.contains('ve-input')) updateExerciseState(Number(e.target.dataset.id), e.target.dataset.key, e.target.value);
+});
+$('hrTable').addEventListener('click', (e) => {
+  if(e.target.classList.contains('delete-btn')) { exercises = exercises.filter(x => x.id !== Number(e.target.dataset.id)); renderTables(); }
+});
+document.addEventListener('input', e => {
+  if (['athleteAge', 'weight', 'height', 'rv', 'vir'].includes(e.target.id)) renderTables();
+});
+
+$('addExercise').onclick = () => { exercises.push({id: Date.now(), name: `Exercise ${exercises.length + 1}`, hr: 0, ve: 0}); renderTables(); };
+
+function promptBulkFill(key) {
+  const raw = prompt(`Tempel beberapa angka untuk ${key.toUpperCase()}\nPisahkan dengan spasi, koma, atau enter (Copy dari Excel).`);
+  if(!raw) return;
+  const values = raw.replace(/,/g, ' ').split(/[\s\t\r\n;]+/).map(v => v.trim()).filter(Boolean).map(Number).filter(v => !Number.isNaN(v));
+  if(!values.length) return;
+  values.forEach((val, offset) => { if (offset < exercises.length) exercises[offset][key] = val; });
+  renderTables();
+}
+$('bulkHrBtn').onclick = () => promptBulkFill('hr');
+$('bulkVeBtn').onclick = () => promptBulkFill('ve');
+
+$('autoNotes').onclick = () => {
+  const c = calculate();
+  $('conclusion').value = `Berdasarkan analisis sesi "${$('sessionName').value}" pada atlet ${$('athleteName').value || '[Nama]'}, tercatat metrik Overall Intensity (OI) sebesar ${fmtPercent(c.oi)}, Relative Density (RD) ${fmtPercent(c.rd)}, dan Absolute Density (AD) ${fmtPercent(c.ad)}. Hasil kalkulasi Index of Overall Demand (IOD) menyentuh angka ${fmtPercent(clampPercent(c.iod))}, yang mengklasifikasikan beban fisiologis pada kategori [${getCategory(c.iod).toUpperCase()}].`;
+  
+  $('suggestion').value = (c.iod >= 60) 
+    ? 'Tindakan Preventif: Beban kritis. Wajib inisiasi protokol pemulihan penuh (cold plunge, rehidrasi, sleep hygiene). Sesi latihan 24-48 jam ke depan harus diturunkan volumenya ke zona active recovery untuk menghindari risiko overtraining dan cedera neuromuskular.' 
+    : (c.iod >= 40) 
+    ? 'Adaptasi Optimal: Beban berada di zona stimulus yang tepat. Pertahankan pola periodisasi saat ini. Sesi berikutnya dapat divariasikan dengan intensitas serupa atau sedikit peningkatan volume (progressive overload) jika HRV (Heart Rate Variability) atlet stabil.' 
+    : 'Maintenance/Recovery: Beban sub-maksimal. Sesi ini sangat ideal dipertahankan sebagai tactical walkthrough, pematangan teknik, atau active recovery di antara siklus latihan berat. Atlet siap untuk intensitas tinggi di sesi berikutnya.';
+};
+
+$('printPdf').onclick = () => window.print();
+renderTables();
+</script>
+</body>
+</html>
